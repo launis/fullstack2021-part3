@@ -5,15 +5,12 @@ import morgan from 'morgan'
 app.use(express.json())
 
 
-const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
-  console.log('Body:  ', request.body)
-  console.log('---')
-  next()
-}
 
-app.use(requestLogger)
+morgan.token("body", (req, res) => {
+  const { body } = req;
+  return JSON.stringify(body)})
+
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
 
 let persons = [
     { 
