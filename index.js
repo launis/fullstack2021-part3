@@ -1,7 +1,9 @@
 import express, { query } from 'express'
 const app = express()
+import morgan from 'morgan'
 
 app.use(express.json())
+
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -49,7 +51,7 @@ app.get('/api/persons', (req, res) => {
 })
 
 const generateId = () => {
-  const id = Math.random() * 100
+  const id = Math.round(Math.random() * 1000)
   return id
 }
 
