@@ -1,12 +1,14 @@
 import express, { query } from 'express'
 const app = express()
+import cors from 'cors'
 import morgan from 'morgan'
 
 app.use(express.json())
+app.use(cors())
 
 
 
-morgan.token("body", (req, res) => {
+morgan.token("body", (req) => {
   const { body } = req;
   return JSON.stringify(body)})
 
