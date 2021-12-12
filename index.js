@@ -1,11 +1,12 @@
 import express, { query } from 'express'
-const app = express()
 import cors from 'cors'
 import morgan from 'morgan'
 
+const app = express()
+
 app.use(express.json())
 app.use(cors())
-
+app.use(express.static('build'))
 
 
 morgan.token("body", (req) => {
@@ -36,10 +37,6 @@ let persons = [
       id: 4
     }
   ]
-
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
-})
 
 app.get('/info', (req, res) => {
   res.send(`Phonebook has information for ${persons.length} people <br><br> ${Date()}`)
