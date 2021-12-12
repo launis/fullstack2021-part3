@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { query } from 'express'
 const app = express()
 
 app.use(express.json())
@@ -40,32 +40,48 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
 })
 
+app.get('/info', (req, res) => {
+  res.send(`Phonebook has information for ${persons.length} people <br><br> ${Date()}`)
+})
+
 app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
 const generateId = () => {
-  const maxId = persons.length > 0
-    ? Math.max(...persons.map(n => n.id))
-    : 0
-  return maxId + 1
+  const id = Math.random() * 100
+  return id
 }
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
-  if (!body.content) {
-    return response.status(400).json({ 
-      error: 'content missing' 
+
+  if (body.name === ""){
+    return response.status(401).json({ 
+      error: 'Name missing' 
+    })
+  }
+
+  if (body.number === ""){
+    return response.status(401).json({ 
+      error: 'Number missing' 
+    })
+  }
+
+  const same = persons.find(person => person.name === body.name)
+  if (same){
+    return response.status(401).json({ 
+      error: `${body.name} Name already exists`
     })
   }
 
   const person = {
-    content: body.content,
-    important: body.important || false,
-    date: new Date(),
+    name: body.name,
+    number: body.number,
     id: generateId(),
   }
+
 
   persons = persons.concat(person)
 
@@ -85,7 +101,7 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
-  persons = persons.filter(person => person.id === id)
+  persons = persons.filter(person => person.id !== id)
 
   response.status(204).end()
 })
