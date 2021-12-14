@@ -3,7 +3,6 @@ import dotenv  from "dotenv"
 dotenv.config()
 
 const url = process.env.MONGODB_URI
-console.log('person process.env.MONGODB_URI',process.env.MONGODB_URI)
 console.log('connecting to', url)
 mongoose.connect(url)
   .then(result => {
