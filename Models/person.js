@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import dotenv  from "dotenv"
+import dotenv  from 'dotenv'
 dotenv.config()
 
 const url = process.env.MONGODB_URI
@@ -13,18 +13,18 @@ mongoose.connect(url)
   })
 
 const personSchema = new mongoose.Schema({
-    name:  {
-      type: String,
-      unique: [true, 'User must be unique'],
-      required: [true, 'User name required'],
-      minLength : 3
-    },
-    number: {
-      type: String,
-      required: [true, 'User name required'],
-      minLength : 8
-    },
-    id: Number,
+  name:  {
+    type: String,
+    unique: [true, 'User must be unique'],
+    required: [true, 'User name required'],
+    minLength : 3
+  },
+  number: {
+    type: String,
+    required: [true, 'User name required'],
+    minLength : 8
+  },
+  id: Number,
 })
 
 
